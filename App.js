@@ -6,8 +6,7 @@ import {
 } from "react-navigation";
 
 import HomeScreen from "./src/pages/HomeScreen";
-import PlayerScreen from "./src/pages/HomeScreen";
-import { StyleSheet, Text, View } from "react-native";
+import PlayerScreen from "./src/pages/PlayerScreen";
 
 const AppNavigator = createStackNavigator({
   Home: {

@@ -31,12 +31,14 @@ class HomeScreen extends React.Component {
     if (this.state.data) {
       let filteredData;
 
+      if (this.state.player === null && this.state.position === null) {
+        filteredData = this.state.data;
+      }
+
       if (this.state.player !== null) {
         filteredData = this.state.data.filter(item =>
           item.lastname.startsWith(this.state.player)
         );
-      } else {
-        filteredData = this.state.data;
       }
 
       return filteredData;
@@ -108,6 +110,11 @@ class HomeScreen extends React.Component {
                   borderBottomWidth: StyleSheet.hairlineWidth,
                   borderColor: "#F5F6F8"
                 }}
+                onPress={() =>
+                  this.props.navigation.navigate("Player", {
+                    name: item.id
+                  })
+                }
               >
                 <Text
                   style={{
