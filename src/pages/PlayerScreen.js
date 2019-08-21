@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-  StatusBar
-} from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import axios from "axios";
 
 class PlayerScreen extends React.Component {
@@ -44,11 +37,55 @@ class PlayerScreen extends React.Component {
         <Text style={{ fontSize: 15, fontWeight: "600" }}>
           {positions[this.state.data.ultraPosition]}
         </Text>
-        <Text style={{ fontSize: 15, fontWeight: "600" }}>
+        <Text style={{ fontSize: 15, fontWeight: "600", marginBottom: 10 }}>
           {this.state.data.club}
         </Text>
 
-        <View style={{ borderBottomColor: "#F5F6F8" }} />
+        <View
+          style={{
+            width: "60%",
+            borderTopColor: "#61C946",
+            borderTopWidth: 3,
+            paddingTop: 10
+          }}
+        >
+          <View style={styles.statBox}>
+            <Text style={[styles.stats, { fontWeight: "700" }]}>
+              Note Moyenne
+            </Text>
+            <Text style={[styles.stats]}>{this.state.data.stats.avgRate}</Text>
+          </View>
+          <View style={styles.statBox}>
+            <Text style={[styles.stats, { fontWeight: "700" }]}>Cote</Text>
+            <Text style={[styles.stats]}>{this.state.data.quotation}</Text>
+          </View>
+          {this.state.data.ultraPosition !== 10 && (
+            <View style={styles.statBox}>
+              <Text style={[styles.stats, { fontWeight: "700" }]}>Buts</Text>
+              <Text style={[styles.stats]}>
+                {this.state.data.stats.sumGoals}
+              </Text>
+            </View>
+          )}
+          {this.state.data.ultraPosition === 10 && (
+            <View style={styles.statBox}>
+              <Text style={[styles.stats, { fontWeight: "700" }]}>
+                Buts concédés
+              </Text>
+              <Text style={[styles.stats]}>
+                {this.state.data.stats.goalsConcededByMatch}
+              </Text>
+            </View>
+          )}
+          <View style={styles.statBox}>
+            <Text style={[styles.stats, { fontWeight: "700" }]}>
+              Titularisations
+            </Text>
+            <Text style={[styles.stats]}>
+              {this.state.data.stats.appearances.starter}
+            </Text>
+          </View>
+        </View>
       </View>
     );
   }
@@ -68,6 +105,14 @@ const styles = StyleSheet.create({
   main: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  stats: {
+    textAlign: "center",
+    fontSize: 17
+  },
+  statBox: {
+    borderWidth: 2,
+    marginVertical: 5
   }
 });
 

@@ -33,12 +33,22 @@ class HomeScreen extends React.Component {
 
       if (this.state.player === null && this.state.position === null) {
         filteredData = this.state.data;
-      }
-
-      if (this.state.player !== null) {
-        filteredData = this.state.data.filter(item =>
-          item.lastname.startsWith(this.state.player)
-        );
+      } else {
+        if (this.state.player !== null && this.state.position === null) {
+          filteredData = this.state.data.filter(item =>
+            item.lastname.startsWith(this.state.player)
+          );
+        } else if (this.state.position !== null && this.state.player === null) {
+          filteredData = this.state.data.filter(
+            item => item.ultraPosition == this.state.position
+          );
+        } else {
+          filteredData = this.state.data.filter(
+            item =>
+              item.lastname.startsWith(this.state.player) &&
+              item.ultraPosition == this.state.position
+          );
+        }
       }
 
       return filteredData;
@@ -75,28 +85,52 @@ class HomeScreen extends React.Component {
 
     return (
       <ScrollView contentContainerStyle={styles.main}>
-        <TextInput
-          placeholder="Nom joueur"
-          style={[styles.customInputs, { width: "50%" }]}
-          value={this.state.player}
-          onChangeText={text => this.setState({ player: text })}
-        />
-        <Picker
-          onValueChange={itemValue => this.setState({ position: itemValue })}
-          placeholder="Poste"
-          style={{ width: "40%" }}
-        >
-          {positionPicker}
-        </Picker>
         <View
           style={{
-            flexDirection: "row"
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+        >
+          <TextInput
+            placeholder="Nom joueur"
+            style={[
+              styles.customInputs,
+              {
+                width: "40%",
+                borderColor: "#F5F6F8",
+                borderWidth: 2,
+                marginRight: 10
+              }
+            ]}
+            value={this.state.player}
+            onChangeText={text => this.setState({ player: text })}
+          />
+          <Picker
+            onValueChange={itemValue => this.setState({ position: itemValue })}
+            placeholder="Poste"
+            selectedValue={this.state.position}
+            style={{ width: "40%" }}
+          >
+            <Picker.Item key="placeholder" value={null} label="-- Poste --" />
+            {positionPicker}
+          </Picker>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            borderBottomColor: "#61C946",
+            borderTopColor: "#61C946",
+            borderTopWidth: 2,
+            borderBottomWidth: 2,
+            paddingVertical: 5
           }}
         >
           <Text style={[styles.tableHeader, { width: "30%" }]}>Joueur</Text>
           <Text style={[styles.tableHeader, { width: "25%" }]}>Poste</Text>
           <Text style={[styles.tableHeader, { width: "25%" }]}>Club</Text>
-          <Text style={[styles.tableHeader, { width: "10%" }]}>Côte</Text>
+          <Text style={[styles.tableHeader, { width: "15%" }]}>Cote</Text>
         </View>
         <FlatList
           data={this.filterData()}
